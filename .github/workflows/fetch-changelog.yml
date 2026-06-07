@@ -2,10 +2,10 @@ name: Fetch OpenHanako Changelog
 
 on:
   schedule:
-    - cron: '0 6 * * *'    # 14:00 Beijing
+    - cron: '0 0 * * *'    # 08:00 Beijing
+    - cron: '0 4 * * *'    # 12:00 Beijing
     - cron: '0 10 * * *'   # 18:00 Beijing
-    - cron: '0 14 * * *'   # 22:00 Beijing
-    - cron: '0 18 * * *'   # 02:00 Beijing (next day)
+    - cron: '0 15 * * *'   # 23:00 Beijing
   workflow_dispatch:
     inputs:
       force_bot:
@@ -142,16 +142,16 @@ jobs:
             CLIENT_SECRET="${{ secrets.QQ_B_CLIENT_SECRET }}"
             OPENID="${{ secrets.QQ_B_OPENID }}"
             echo "Force bot: B"
-          elif [ "$HOUR" = "14" ] || [ "$HOUR" = "22" ]; then
+          elif [ "$HOUR" = "08" ] || [ "$HOUR" = "18" ]; then
             APP_ID="${{ secrets.QQ_A_APP_ID }}"
             CLIENT_SECRET="${{ secrets.QQ_A_CLIENT_SECRET }}"
             OPENID="${{ secrets.QQ_A_OPENID }}"
-            echo "Auto select: A (hour=$HOUR)"
+            echo "Auto select: 香港记者 (hour=$HOUR)"
           else
             APP_ID="${{ secrets.QQ_B_APP_ID }}"
             CLIENT_SECRET="${{ secrets.QQ_B_CLIENT_SECRET }}"
             OPENID="${{ secrets.QQ_B_OPENID }}"
-            echo "Auto select: B (hour=$HOUR)"
+            echo "Auto select: doro (hour=$HOUR)"
           fi
 
           echo "Getting OAuth token for bot $APP_ID..."
