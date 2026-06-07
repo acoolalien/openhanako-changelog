@@ -7,6 +7,16 @@ on:
     - cron: '0 14 * * *'   # 22:00 Beijing
     - cron: '0 18 * * *'   # 02:00 Beijing (next day)
   workflow_dispatch:
+    inputs:
+      force_bot:
+        description: '强制使用某个 bot (A=香港记者, B=doro, 默认按时间自动)'
+        required: false
+        type: choice
+        default: ''
+        options:
+          - ''
+          - A
+          - B
 
 env:
   REPO: liliMozi/openhanako
@@ -120,15 +130,28 @@ jobs:
       - name: Push to QQ
         if: steps.commits.outputs.count != '0'
         run: |
+          FORCE="${{ inputs.force_bot }}"
           HOUR=$(TZ='Asia/Shanghai' date +%H)
-          if [ "$HOUR" = "14" ] || [ "$HOUR" = "22" ]; then
+          if [ "$FORCE" = "A" ]; then
             APP_ID="${{ secrets.QQ_A_APP_ID }}"
             CLIENT_SECRET="${{ secrets.QQ_A_CLIENT_SECRET }}"
             OPENID="${{ secrets.QQ_A_OPENID }}"
+            echo "Force bot: A"
+          elif [ "$FORCE" = "B" ]; then
+            APP_ID="${{ secrets.QQ_B_APP_ID }}"
+            CLIENT_SECRET="${{ secrets.QQ_B_CLIENT_SECRET }}"
+            OPENID="${{ secrets.QQ_B_OPENID }}"
+            echo "Force bot: B"
+          elif [ "$HOUR" = "14" ] || [ "$HOUR" = "22" ]; then
+            APP_ID="${{ secrets.QQ_A_APP_ID }}"
+            CLIENT_SECRET="${{ secrets.QQ_A_CLIENT_SECRET }}"
+            OPENID="${{ secrets.QQ_A_OPENID }}"
+            echo "Auto select: A (hour=$HOUR)"
           else
             APP_ID="${{ secrets.QQ_B_APP_ID }}"
             CLIENT_SECRET="${{ secrets.QQ_B_CLIENT_SECRET }}"
             OPENID="${{ secrets.QQ_B_OPENID }}"
+            echo "Auto select: B (hour=$HOUR)"
           fi
 
           echo "Getting OAuth token for bot $APP_ID..."
