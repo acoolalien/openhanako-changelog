@@ -57,7 +57,7 @@ jobs:
           TXT=$(cat raw.txt)
           PAYLOAD=$(jq -n \
             --arg model "gpt-4o-mini" \
-            --arg system "You translate git commit messages into Chinese. Keep SHA prefix. Output only translation." \
+            --arg system "You are a changelog summarizer. Group commits into sections: ### 修复, ### 新功能, ### 测试, ### 其他. Translate each message into natural spoken Chinese. Keep SHA prefix. At the end, add a short summary paragraph starting with **更新要点**:" \
             --arg user "$TXT" \
             '{model: $model, messages: [{role: "system", content: $system}, {role: "user", content: $user}], temperature: 0.3, max_tokens: 2000}')
           echo "Sending request to GitHub Models..."
