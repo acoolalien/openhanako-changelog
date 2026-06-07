@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get last cached SHA
+      - name: Get cached last SHA
         id: cache
         run: echo "sha=$(cat last_sha.txt 2>/dev/null || echo '')" >> "$GITHUB_OUTPUT"
 
@@ -44,7 +44,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: No updates, skip
+      - name: Skip if no updates
         if: steps.commits.outputs.count == '0'
         run: echo "No new commits, nothing to do"
 
@@ -69,13 +69,12 @@ jobs:
             -d "$PAYLOAD" -o response.json)
           if [ "$HTTP_CODE" != "200" ]; then
             echo "ERROR: API returned $HTTP_CODE"
-            cat response.json
-            echo "（翻译失败，无更新内容）" > translated.txt
+            echo "（翻译失败）" > translated.txt
           else
             jq -r '.choices[0].message.content' response.json > translated.txt
             RESULT=$(cat translated.txt)
             if [ "$RESULT" = "null" ] || [ -z "$RESULT" ]; then
-              echo "（翻译失败，无更新内容）" > translated.txt
+              echo "（翻译失败）" > translated.txt
             fi
           fi
 
@@ -118,7 +117,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push to QQ (select bot by hour)
+      - name: Push to QQ
         if: steps.commits.outputs.count != '0'
         run: |
           HOUR=$(TZ='Asia/Shanghai' date +%H)
@@ -132,30 +131,26 @@ jobs:
             OPENID="${{ secrets.QQ_B_OPENID }}"
           fi
 
-          echo "Getting token for bot $APP_ID..."
-
-          # Get access token
-          TOKEN_RESP=$(curl -s -X POST "https://bots.qq.com/app/getAppAccessToken" \
+          echo "Getting OAuth token for bot $APP_ID..."
+          AUTH_RESP=$(curl -s -X POST "https://bots.qq.com/app/getAppAccessToken" \
             -H "Content-Type: application/json" \
             -d "{\"appId\":\"$APP_ID\",\"clientSecret\":\"$CLIENT_SECRET\"}")
-          ACCESS_TOKEN=$(echo "$TOKEN_RESP" | jq -r '.access_token')
-          if [ -z "$ACCESS_TOKEN" ] || [ "$ACCESS_TOKEN" = "null" ]; then
-            echo "Failed to get access token"
-            echo "$TOKEN_RESP"
+          ACCESS_TOKEN=$(echo "$AUTH_RESP" | jq -r '.access_token // empty')
+          if [ -z "$ACCESS_TOKEN" ]; then
+            echo "OAuth failed, response:"
+            echo "$AUTH_RESP" | head -c 300
             exit 0
           fi
 
-          # Build message content
           TIME=$(TZ='Asia/Shanghai' date +"%Y-%m-%d %H:%M")
           CONTENT=$(cat translated.txt)
           MSG=$(printf 'OpenHanako 更新 (%s):\n\n%s' "$TIME" "$CONTENT")
-
-          # Trim to QQ's max length (~4000 chars for safety)
           MSG=$(echo "$MSG" | head -c 3500)
 
-          # Send private message
+          echo "Sending to OPENID=$OPENID ..."
           SEND_RESP=$(curl -s -X POST "https://api.sgroup.qq.com/v2/users/$OPENID/messages" \
             -H "Authorization: QQBot $ACCESS_TOKEN" \
             -H "Content-Type: application/json" \
             -d "{\"content\":$(echo "$MSG" | jq -Rs .),\"msg_type\":0}")
           echo "Send result: $(echo "$SEND_RESP" | jq -c '.')"
+          echo "HTTP code: $(echo "$SEND_RESP" | jq -r '.code // \"no code\"')"
