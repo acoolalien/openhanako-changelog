@@ -139,6 +139,10 @@ jobs:
           else
             gh issue edit "$ISSUE" --body "$BODY"
             gh issue comment "$ISSUE" --body "$BODY"
+            # Delete old comments, keep only the newest
+            gh api "repos/${{ github.repository }}/issues/$ISSUE/comments" --jq '.[:-1].[].id' | while read id; do
+              gh api "repos/${{ github.repository }}/issues/comments/$id" -X DELETE > /dev/null 2>&1 || true
+            done
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
