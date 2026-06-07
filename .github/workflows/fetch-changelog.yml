@@ -2,7 +2,10 @@ name: Fetch OpenHanako Changelog
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 6 * * *'    # 14:00 Beijing
+    - cron: '0 10 * * *'   # 18:00 Beijing
+    - cron: '0 14 * * *'   # 22:00 Beijing
+    - cron: '0 18 * * *'   # 02:00 Beijing (next day)
   workflow_dispatch:
 
 env:
@@ -57,27 +60,22 @@ jobs:
           TXT=$(cat raw.txt)
           PAYLOAD=$(jq -n \
             --arg model "gpt-4o-mini" \
-            --arg system "You are a changelog summarizer. Group commits into sections: ### 修复, ### 新功能, ### 测试, ### 其他. Translate each message into natural spoken Chinese. Keep SHA prefix. At the end, add a short summary paragraph starting with **更新要点**:" \
+            --arg system "You are a changelog summarizer. Group commits into sections: ### 修复, ### 新功能, ### 测试, ### 其他. Translate each message into natural spoken Chinese. Keep SHA prefix. At the end, add a short summary paragraph starting with **更新要点**: Output text only." \
             --arg user "$TXT" \
             '{model: $model, messages: [{role: "system", content: $system}, {role: "user", content: $user}], temperature: 0.3, max_tokens: 2000}')
-          echo "Sending request to GitHub Models..."
           HTTP_CODE=$(curl -s -w "%{http_code}" -X POST "https://models.inference.ai.azure.com/chat/completions" \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -d "$PAYLOAD" -o response.json)
-          echo "HTTP status: $HTTP_CODE"
           if [ "$HTTP_CODE" != "200" ]; then
             echo "ERROR: API returned $HTTP_CODE"
             cat response.json
-            echo "null" > translated.txt
+            echo "（翻译失败，无更新内容）" > translated.txt
           else
             jq -r '.choices[0].message.content' response.json > translated.txt
             RESULT=$(cat translated.txt)
-            echo "Translation result length: ${#RESULT} chars"
             if [ "$RESULT" = "null" ] || [ -z "$RESULT" ]; then
-              echo "API response structure:"
-              jq '.' response.json
-              echo "null" > translated.txt
+              echo "（翻译失败，无更新内容）" > translated.txt
             fi
           fi
 
@@ -104,26 +102,60 @@ jobs:
           git commit -m "changelog $TIME" || true
           git push
 
-      - name: Build issue body
+      - name: Push to pinned issue (email backup)
         if: steps.commits.outputs.count != '0'
-        id: body
         run: |
           TIME=$(TZ='Asia/Shanghai' date +"%Y-%m-%d %H:%M")
           CONTENT=$(cat translated.txt)
-          printf '## OpenHanako Changelog\n\nLatest (%s):\n\n%s\n\n---\nFull history: changelog.md in repo\n' "$TIME" "$CONTENT" > body.txt
-          cat body.txt
-
-      - name: Sync issue (update body + add comment for notification)
-        if: steps.commits.outputs.count != '0'
-        run: |
-          BODY=$(cat body.txt)
+          BODY=$(printf '## OpenHanako Changelog\n\nLatest (%s):\n\n%s\n\n---\nFull history: changelog.md in repo\n' "$TIME" "$CONTENT")
           ISSUE=$(gh issue list --label "$LABEL" --state open --json number --jq '.[0].number' 2>/dev/null)
           if [ -z "$ISSUE" ]; then
             gh issue create --title "$ISSUE_TITLE" --body "$BODY" --label "$LABEL"
           else
             gh issue edit "$ISSUE" --body "$BODY"
-            # Add comment to trigger email notification (editing body does not send one)
             gh issue comment "$ISSUE" --body "$BODY"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push to QQ (select bot by hour)
+        if: steps.commits.outputs.count != '0'
+        run: |
+          HOUR=$(TZ='Asia/Shanghai' date +%H)
+          if [ "$HOUR" = "14" ] || [ "$HOUR" = "22" ]; then
+            APP_ID="${{ secrets.QQ_A_APP_ID }}"
+            CLIENT_SECRET="${{ secrets.QQ_A_CLIENT_SECRET }}"
+            OPENID="${{ secrets.QQ_A_OPENID }}"
+          else
+            APP_ID="${{ secrets.QQ_B_APP_ID }}"
+            CLIENT_SECRET="${{ secrets.QQ_B_CLIENT_SECRET }}"
+            OPENID="${{ secrets.QQ_B_OPENID }}"
+          fi
+
+          echo "Getting token for bot $APP_ID..."
+
+          # Get access token
+          TOKEN_RESP=$(curl -s -X POST "https://bots.qq.com/app/getAppAccessToken" \
+            -H "Content-Type: application/json" \
+            -d "{\"appId\":\"$APP_ID\",\"clientSecret\":\"$CLIENT_SECRET\"}")
+          ACCESS_TOKEN=$(echo "$TOKEN_RESP" | jq -r '.access_token')
+          if [ -z "$ACCESS_TOKEN" ] || [ "$ACCESS_TOKEN" = "null" ]; then
+            echo "Failed to get access token"
+            echo "$TOKEN_RESP"
+            exit 0
+          fi
+
+          # Build message content
+          TIME=$(TZ='Asia/Shanghai' date +"%Y-%m-%d %H:%M")
+          CONTENT=$(cat translated.txt)
+          MSG=$(printf 'OpenHanako 更新 (%s):\n\n%s' "$TIME" "$CONTENT")
+
+          # Trim to QQ's max length (~4000 chars for safety)
+          MSG=$(echo "$MSG" | head -c 3500)
+
+          # Send private message
+          SEND_RESP=$(curl -s -X POST "https://api.sgroup.qq.com/v2/users/$OPENID/messages" \
+            -H "Authorization: QQBot $ACCESS_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"content\":$(echo "$MSG" | jq -Rs .),\"msg_type\":0}")
+          echo "Send result: $(echo "$SEND_RESP" | jq -c '.')"
