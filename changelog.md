@@ -301,3 +301,47 @@ b7452d6 2026-06-06T10:56:16 liliMozi: 修复：清理 Windows UIA 边界
 无
 
 **更新要点**: 本次更新主要集中在修复多个服务器和客户端的功能问题，同时引入了一些新功能以增强用户体验，包括放宽自动审批审核和优化工作区流程。此外，针对 Windows CI 的测试也进行了修复，以确保更好的兼容性和稳定性。
+
+---
+### 2026-06-07 10:35
+
+### 修复
+- 9f96ba5 liliMozi: 修复：通过 path.resolve 规范化检查点包装器中的绝对路径
+- 58f7f0c liliMozi: 修复（服务器）：清除丢弃的会话运行时缓存
+- a99c067 liliMozi: 修复（服务器）：按路径作用域会话内存状态
+- 34e4741 liliMozi: 修复（服务器）：验证 websocket 流负载
+- ac5611b liliMozi: 修复（服务器）：加强路由错误合同
+- de775c3 liliMozi: 修复：设置首帧状态
+- 64c725b liliMozi: 修复：使工作室远程能力归服务器所有
+- a29cc24 liliMozi: 修复：整合自动化代理运行
+- 6fb52ed liliMozi: 修复：支持工作室工作区桌面流程
+- aa3a332 liliMozi: 修复：设置快照首帧切换
+- 83e7f63 liliMozi: 修复：统一设置快照的水合
+- c0e89e1 liliMozi: 修复：统一远程工作台文件访问
+- 3faf830 liliMozi: 修复：稳定设置真相源加载
+- ae25bcf liliMozi: 修复：最终确定过期的桌面活动
+- 37e1fef liliMozi: 修复：追踪捆绑插件的 TypeScript 依赖
+- a7c6330 liliMozi: 修复：在重放用户回合之前分支
+- 60bdf28 liliMozi: 修复：将飞书 markdown 表格渲染为卡片
+- 59e2010 liliMozi: 修复：诊断 Windows 沙盒启动失败
+- b7452d6 liliMozi: 修复：清理 Windows UIA 边界
+- 6e94f01 liliMozi: 修复：预检捆绑的 Python 技能
+- 9842ab8 liliMozi: 修复（插件 UI）：门户标题栏插件菜单
+- 66f8f74 liliMozi: 修复：保持流恢复状态对齐
+
+### 新功能
+- 28c3a7 liliMozi: 新功能：放宽自动审批审查
+- fb99c14 liliMozi: 新功能：公开插件会话代理能力
+- 471b30c liliMozi: 新功能：使用自动化草稿卡片
+- 183b7a6 liliMozi: 新功能（UI）：提供商标志和统一模型下拉组
+- 9792c5e liliMozi: 新功能：优化自动化和工作区流程
+- 1e3d9cf liliMozi: 新功能（UI）：统一选择小部件下拉弹出样式
+
+### 测试
+- 00833ef liliMozi: 测试：修复 17 个测试文件中剩余的 35 个 Windows CI 失败
+- 9619e7b liliMozi: 测试：修复 Windows CI 路径期望
+
+### 其他
+无
+
+**更新要点**: 本次更新主要集中在修复多个功能和优化系统性能，特别是在 Windows 环境下的稳定性和兼容性。同时引入了一些新功能以增强用户体验。
