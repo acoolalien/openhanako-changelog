@@ -16,6 +16,7 @@ jobs:
     permissions:
       contents: write
       issues: write
+      models: read
     steps:
       - uses: actions/checkout@v4
 
@@ -56,14 +57,29 @@ jobs:
           TXT=$(cat raw.txt)
           PAYLOAD=$(jq -n \
             --arg model "gpt-4o-mini" \
-            --arg system 'You translate git commit messages into Chinese. Keep the SHA prefix and structure. Output only the translation.' \
-            --arg user "Translate these OpenHanako commits:\n$TXT" \
+            --arg system "You translate git commit messages into Chinese. Keep SHA prefix. Output only translation." \
+            --arg user "$TXT" \
             '{model: $model, messages: [{role: "system", content: $system}, {role: "user", content: $user}], temperature: 0.3, max_tokens: 2000}')
-          curl -s -X POST "https://models.inference.ai.azure.com/chat/completions" \
+          echo "Sending request to GitHub Models..."
+          HTTP_CODE=$(curl -s -w "%{http_code}" -X POST "https://models.inference.ai.azure.com/chat/completions" \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -d "$PAYLOAD" -o response.json
-          jq -r '.choices[0].message.content' response.json > translated.txt
+            -d "$PAYLOAD" -o response.json)
+          echo "HTTP status: $HTTP_CODE"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "ERROR: API returned $HTTP_CODE"
+            cat response.json
+            echo "null" > translated.txt
+          else
+            jq -r '.choices[0].message.content' response.json > translated.txt
+            RESULT=$(cat translated.txt)
+            echo "Translation result length: ${#RESULT} chars"
+            if [ "$RESULT" = "null" ] || [ -z "$RESULT" ]; then
+              echo "API response structure:"
+              jq '.' response.json
+              echo "null" > translated.txt
+            fi
+          fi
 
       - name: Append to changelog and update cache
         if: steps.commits.outputs.count != '0'
@@ -88,12 +104,19 @@ jobs:
           git commit -m "changelog $TIME" || true
           git push
 
+      - name: Build issue body
+        if: steps.commits.outputs.count != '0'
+        id: body
+        run: |
+          TIME=$(TZ='Asia/Shanghai' date +"%Y-%m-%d %H:%M")
+          CONTENT=$(cat translated.txt)
+          printf '## OpenHanako Changelog\n\nLatest (%s):\n\n%s\n\n---\nFull history: changelog.md in repo\n' "$TIME" "$CONTENT" > body.txt
+          cat body.txt
+
       - name: Sync pinned issue
         if: steps.commits.outputs.count != '0'
         run: |
-          CONTENT=$(cat translated.txt)
-          TIME=$(TZ='Asia/Shanghai' date +"%Y-%m-%d %H:%M")
-          BODY="## OpenHanako Changelog\n\nLatest ($TIME):\n\n$CONTENT\n\n---\nFull history: changelog.md in repo"
+          BODY=$(cat body.txt)
           ISSUE=$(gh issue list --label "$LABEL" --state open --json number --jq '.[0].number' 2>/dev/null)
           if [ -z "$ISSUE" ]; then
             gh issue create --title "$ISSUE_TITLE" --body "$BODY" --label "$LABEL"
