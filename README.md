@@ -1,6 +1,6 @@
 # OpenHanako 更新日志（中文）
 
-每小时检测 [liliMozi/openhanako](https://github.com/liliMozi/openhanako) 的 git 更新，通过 GitHub Models（GPT-4o-mini）翻译为中文，按 修复/新功能/测试 分组展示并附更新要点，通过 QQ bot 私聊推送 + GitHub Issue 邮件备份。
+每天 4 次检测 [liliMozi/openhanako](https://github.com/liliMozi/openhanako) 的 git 更新（北京时间 08:00 / 12:00 / 18:00 / 23:00），通过 GitHub Models（GPT-4o-mini）翻译为中文，按 修复/新功能/测试 分组展示并附更新要点，通过 QQ bot 私聊推送 + GitHub Issue 邮件备份。
 
 ## 架构
 
@@ -11,8 +11,8 @@ mozi push → GitHub API → GPT-4o-mini 翻译 → QQ Bot 私聊推给你
 
 - **爬取**：GitHub Actions，每天 4 次（北京时间 08:00 / 12:00 / 18:00 / 23:00）
 - **翻译**：GitHub Models（GPT-4o-mini），零成本
-- **QQ 推送**：QQ 开放平台 Bot API，每个 Bot 每天 2 条主动私信
-- **邮件备份**：GitHub Issue 评论，所有订阅者自动收信
+- **QQ 推送**：QQ 开放平台 Bot API，官方文档标注每用户每天 2 条（实际限制可能更宽松）
+- **自动裁剪**：`changelog.md` 保留最近 8 条记录，Issue 评论每次自动删除旧评论仅保留最新一条
 
 ## 订阅方式（只收邮件，不用 QQ）
 
@@ -20,11 +20,11 @@ mozi push → GitHub API → GPT-4o-mini 翻译 → QQ Bot 私聊推给你
 
 1. 打开 [pinned issue](https://github.com/acoolalien/openhanako-changelog/issues/1)
 2. 点击右侧 **Subscribe**（需要 GitHub 账号）
-3. 每次检测到新 commit，issue 自动追加评论，GitHub 发送邮件通知
+3. 每次检测到新 commit，issue 自动更新正文并追加评论（旧评论自动删除），GitHub 发送邮件通知
 
 ## 自己部署（含 QQ 推送）
 
-如果你想 fork 一份给自己的 openhanako 更新日志做 QQ 推送。
+如果你想 fork 一份给自用的 openhanako 更新日志做 QQ 推送。
 
 ### 前置准备
 
@@ -99,8 +99,8 @@ Bot 选择逻辑在 `Push to QQ` 步骤中，按小时匹配。
 
 ```
 .github/workflows/fetch-changelog.yml   — 主工作流
-changelog.md                             — 累积的完整更新历史
-last_sha.txt                             — 上次抓取的 commit SHA
+changelog.md                             — 最近 8 条更新记录（自动裁剪，YAML front matter + `***` 分隔符）
+last_sha.txt                             — 上次抓取的 commit SHA，用于增量比对
 ```
 
 ## 数据来源
