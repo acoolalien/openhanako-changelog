@@ -113,7 +113,7 @@ jobs:
           printf '## OpenHanako Changelog\n\nLatest (%s):\n\n%s\n\n---\nFull history: changelog.md in repo\n' "$TIME" "$CONTENT" > body.txt
           cat body.txt
 
-      - name: Sync pinned issue
+      - name: Sync issue (update body + add comment for notification)
         if: steps.commits.outputs.count != '0'
         run: |
           BODY=$(cat body.txt)
@@ -122,6 +122,8 @@ jobs:
             gh issue create --title "$ISSUE_TITLE" --body "$BODY" --label "$LABEL"
           else
             gh issue edit "$ISSUE" --body "$BODY"
+            # Add comment to trigger email notification (editing body does not send one)
+            gh issue comment "$ISSUE" --body "$BODY"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
