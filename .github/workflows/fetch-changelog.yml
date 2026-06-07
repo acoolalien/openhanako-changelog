@@ -94,23 +94,27 @@ jobs:
           SHELL_TZ=$(TZ='Asia/Shanghai' date +"%Y-%m-%d %H:%M")
           {
             echo ""
-            echo "---"
+            echo "***"
             echo "### $SHELL_TZ"
             echo ""
             cat translated.txt
           } >> changelog.md
           echo "${{ steps.commits.outputs.newest }}" > last_sha.txt
 
-      - name: Trim changelog to last 8
+      - name: Trim to last 8 and fix front matter
         if: steps.commits.outputs.count != '0'
         run: |
           LIMIT=8
-          COUNT=$(grep -c '^---$' changelog.md)
-          if [ "$COUNT" -gt "$LIMIT" ]; then
-            SKIP=$((COUNT - LIMIT))
-            awk -v skip="$SKIP" '/^---$/{c++; if(c>skip){p=1}} p{print}' changelog.md > .trim.tmp
+          SEP_COUNT=$(grep -c '^\*\*\*$' changelog.md)
+          if [ "$SEP_COUNT" -gt "$LIMIT" ]; then
+            SKIP=$((SEP_COUNT - LIMIT))
+            awk -v skip="$SKIP" '/^\*\*\*$/{c++; if(c>skip){p=1}} p{print}' changelog.md > .trim.tmp
             mv .trim.tmp changelog.md
-            echo "Trimmed to last $LIMIT entries"
+          fi
+          # Ensure valid YAML front matter so GitHub viewer doesn't error
+          if [ "$(head -1 changelog.md | tr -d '\r')" != "---" ]; then
+            ( echo '---'; echo '---'; cat changelog.md ) > .front.tmp
+            mv .front.tmp changelog.md
           fi
 
       - name: Commit and push
