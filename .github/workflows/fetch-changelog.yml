@@ -41,16 +41,29 @@ jobs:
       - name: Fetch commits from openhanako
         id: commits
         run: |
-          SINCE="${{ steps.cache.outputs.sha }}"
-          if [ -z "$SINCE" ]; then
+          CACHED=$(cat last_sha.txt 2>/dev/null || echo "")
+          if [ -z "$CACHED" ]; then
+            echo "No cached SHA, fetching latest 30 commits"
             gh api "repos/$REPO/commits?per_page=30" > commits.json
+            COUNT=$(jq 'length' commits.json)
           else
-            gh api "repos/$REPO/commits?since=${SINCE}&per_page=30" > commits.json
+            echo "Cached SHA: $CACHED"
+            if ! gh api "repos/$REPO/compare/$CACHED...HEAD?per_page=30" > compare.json 2>/dev/null; then
+              echo "Compare API failed (rebased?), fallback to full fetch"
+              gh api "repos/$REPO/commits?per_page=30" > commits.json
+              COUNT=$(jq 'length' commits.json)
+            else
+              COUNT=$(jq '.total_commits' compare.json)
+              echo "New commits since cached SHA: $COUNT"
+              if [ "$COUNT" -gt 0 ]; then
+                jq '.commits' compare.json > commits.json
+              fi
+            fi
           fi
-          COUNT=$(jq 'length' commits.json)
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           if [ "$COUNT" -gt 0 ]; then
             echo "newest=$(jq -r '.[0].sha' commits.json)" >> "$GITHUB_OUTPUT"
+            echo "Latest: $(jq -r '.[0].sha[0:7]' commits.json) $(jq -r '.[0].commit.message | split("\n")[0]' commits.json)"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
