@@ -264,3 +264,47 @@
 无
 
 **更新要点**: 本次更新主要集中在修复多个功能和提升系统稳定性，同时新增了一些办公工具和浏览器功能。测试方面也进行了整合和改进，确保系统的可靠性。
+
+***
+### 2026-06-08 20:26
+
+### 修复
+- 6ae072a liliMozi: 修复：保持 stage_files 的交付语义
+- b501481 liliMozi: 修复：自动化建议应用流程
+- e5268bd liliMozi: 修复：保持流式 markdown 渲染器的一致性
+- 4a06b67 liliMozi: 修复：恢复持久化会话权限模式
+- b2b1424 liliMozi: 修复：同步桥接公共 ishiki 快照
+- 1986090 liliMozi: 修复：保持沙盒控制仅限用户
+- b185252 liliMozi: 修复：匹配流式段落间距
+- d427fba liliMozi: 修复：稳定流式文本渲染
+- cfbe4a7 liliMozi: 修复：当发布工件尚不可用时抑制更新错误
+- 44e01ab liliMozi: 修复：揭示保存的提供者 API 密钥
+- ad4b5e4 liliMozi: 修复：将 squircle 面具应用于 macOS 图标以兼容 Tahoe
+- 821ca84 liliMozi: 修复：将待办卡片重命名为进度，放大进行中图标，移动到顶部
+- c4fc58b liliMozi: 修复：将待办清理移动到侧边面板
+- cc92818 liliMozi: 修复：在本地 webcontents 中渲染 HTML 预览
+- f51418b liliMozi: 修复：添加仅名称代理保存按钮
+- b07a8ea liliMozi: 修复：对齐流式刷新节奏
+- 0cfdb3c liliMozi: 修复：改善聊天流动感
+- 01f08c7 liliMozi: 修复：作用域会话权限默认值
+- 413353c liliMozi: 修复：从使用账本中移除估算成本显示
+- 2e84c20 liliMozi: 修复：对齐预览标签栏顶部间距与面板边缘间隙
+- b6c8357 liliMozi: 修复：上传前压缩过大的聊天图片
+- bcaf497 liliMozi: 修复：加固会话中止和完成
+- 846dc06 liliMozi: 修复：验证 MCP OAuth 令牌持久性
+- a1497d3 liliMozi: 修复：允许普通插件页面渲染
+
+### 新功能
+- edf31b1 liliMozi: 新功能：添加默认办公工具
+- 31ad0e4 liliMozi: 新功能：添加过渡文件工具
+- e99687e liliMozi: 新功能：将代理外观注入系统提示
+- af9862a liliMozi: 新功能：添加多标签内置浏览器
+
+### 测试
+- fa8c745 liliMozi: 测试：整合测试合约并添加本地附加组件保护
+- 7a6b454 liliMozi: 测试：添加清理账本并合并 DeepSeek 回归
+
+### 其他
+无
+
+**更新要点**: 本次更新主要集中在修复多个功能和提升系统稳定性，同时引入了一些新功能，如默认办公工具和多标签内置浏览器。此外，还进行了测试合约的整合和清理账本的添加。
