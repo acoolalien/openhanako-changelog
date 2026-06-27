@@ -1,19 +1,6 @@
 ---
 ---
 ***
-### 2026-06-23 23:51
-
-### 修复
-- e845b94 解决了权限问题：在Hana流程中保持普通的git推送。
-- 975deaa 解决了提供者问题：为OpenCode Go省略清晰思路。
-- 522ef31 解决了自动化问题：保留每个调度单元。
-- 38d3950 解决了提供者问题：修复了目录和Ollama视觉元数据。
-- 6976127 解决了桥接问题：跳过不可用的浏览器恢复。
-- dbd07e7 解决了桥接问题：拆分了DingTalk凭证合同。
-
-**更新要点**: 本次更新主要集中在修复多个功能和流程中的问题，包括权限、自动化和桥接功能的改进。
-
-***
 ### 2026-06-24 13:57
 
 ### 修复
@@ -216,3 +203,43 @@
 - 0775e94: 隐藏交互式卡片工具指示器
 
 **更新要点**: 本次更新主要集中在修复多个功能和稳定性问题，包括聊天时间线、WebSocket连接和用户消息操作等。同时，新增了通用Markdown预览功能，并更新了编辑器的排版默认值。
+
+***
+### 2026-06-27 22:44
+
+### 新功能
+- dfdf6e7: 添加了用于内联代理作者 HTML/SVG 的交互式卡片系统。
+- b60964b: 完成会话身份迁移。
+- fdffa35: 添加可编辑的记忆事实实验。
+- 083b253: 添加了珊瑚主题。
+
+### 修复
+- 91c20c5: 在工作树中忽略 node_modules 符号链接。
+- 9b2a35d: 对齐交互式卡片合并合约。
+- 7ace5de: 启动时水合权限默认值。
+- f054351: 在文件更新后稳定预览刷新。
+- 1566716: 统一文档更改后的预览刷新。
+- 628eb5f: 恢复卡片工具和接线覆盖。
+- 834c419: 加强链接数据根的清单迁移。
+- 4a4d911: 统一预览文件更改刷新。
+
+### 其他
+- f20024a: 将 'main' 分支合并到 worktree-interactive-card。
+- f720206: 将 'main' 分支合并到 worktree-interactive-card。
+- 482b7d3: 将 'main' 分支合并到 worktree-interactive-card。
+- b8bb683: 将 'main' 分支合并到 worktree-interactive-card。
+- e62a314: 将 'main' 分支合并到 worktree-interactive-card。
+- 0d86519: 将 'main' 分支合并到 worktree-interactive-card。
+- 78fc7b1: 将 'main' 分支合并到 worktree-interactive-card。
+- 4b26fd8: 将 'main' 分支合并到 worktree-interactive-card。
+- ac33dbb: 将 'main' 分支合并到 worktree-interactive-card。
+- fa107c0: 将 'main' 分支合并到 worktree-interactive-card。
+- d828d9a: 将 'main' 分支合并到 worktree-interactive-card。
+- 6b55e54: 将 'main' 分支合并到 worktree-interactive-card。
+- 9e6ca88: 将 'main' 分支合并到 worktree-interactive-card。
+- 6498a42: 将 'main' 分支合并到 worktree-interactive-card。
+- 0701fc1: 将 'main' 分支合并到 worktree-interactive-card。
+- 2f4b5a8: 将 'main' 分支合并到 worktree-interactive-card。
+- d36348e: 将 'main' 分支合并到 worktree-interactive-card。
+
+**更新要点**: 本次更新引入了交互式卡片系统和珊瑚主题，同时完成了会话身份迁移。修复了多个与预览刷新和权限相关的问题，并进行了多次分支合并。
