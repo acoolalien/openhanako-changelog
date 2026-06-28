@@ -1,42 +1,6 @@
 ---
 ---
 ***
-### 2026-06-26 07:23
-
-### 修复
-- f4b9f406  修复内存：退休缓存快照反射
-- 58c611c  修复提供者：规范化Codex和MCP资源
-- 21a30b4  修复会话：加强归档生命周期
-- 3aaf87c  修复Markdown表格列宽
-- 89941ca  修复资源输入/输出：加强编辑器刷新路由
-- 7cc9550  修复Markdown表格文本列宽
-- e73c84c  修复打包预览编辑器白屏
-- 4130bd9  修复打包预览编辑器启动竞争
-- 4cd8025  修复预览编辑器主机就绪类型
-- db3890c  修复CSS：将能力行恢复到原始卡片样式
-- 5e03cfa  修复测试：为归档路由测试添加moveSessionLifecycle模拟
-
-### 新功能
-- d172fec  新功能（资源输入/输出）：统一远程资源预览访问
-
-### 测试
-- 5e03cfa  修复测试：为归档路由测试添加moveSessionLifecycle模拟
-
-### 其他
-- f2bc480  样式：将会话分隔线的宽度设置为72%
-- 3e3e50a  重构（CSS）：定义--fs-hint令牌并规范化提示层字体大小
-- 202b86f  重构（CSS）：将标题层字体大小规范化为var(--fs-caption)
-- 402e906  重构（CSS）：将UI层字体大小规范化为var(--fs-ui)
-- 7dbc175  重构（CSS）：将正文层字体大小规范化为var(--fs-body)
-- fc72a39  重构（CSS）：将标题层字体大小规范化为var(--fs-title)
-- a2e27d9  重构（CSS）：将间距令牌迁移到数字9层级别
-- c1d88dd  重构（CSS）：将硬编码的间距字面量吸收到9层令牌规模
-- c66f08e  样式：统一列表项为无边框透明悬停模式
-- 28d29b1  样式：为工具切换添加SettingsSection列表变体
-
-**更新要点**: 本次更新主要集中在修复多个问题，包括内存管理、Markdown表格和编辑器的启动问题，同时引入了一项新功能以统一远程资源预览访问。此外，还进行了多项CSS样式和结构的重构，以提升整体代码质量和可维护性。
-
-***
 ### 2026-06-26 18:44
 
 ### 修复
@@ -290,3 +254,43 @@
 - 0775e94: 隐藏交互式卡片工具指示器
 
 **更新要点**: 本次更新主要集中在修复多个功能和增强用户体验，包括对齐设置卡片、验证WebSocket连接、以及稳定移动设置模态测试等。此外，还新增了通用Markdown预览功能。
+
+***
+### 2026-06-28 18:21
+
+### 新功能
+- dfdf6e7: 添加了用于内联代理作者 HTML/SVG 的互动卡系统。
+- b60964b: 完成会话身份迁移。
+- fdffa35: 添加可编辑的记忆事实实验。
+- 083b253: 添加了珊瑚主题。
+
+### 修复
+- 91c20c5: 在工作树中忽略 node_modules 符号链接。
+- 9b2a35d: 对齐互动卡合并合约。
+- 7ace5de: 启动时水合权限默认值。
+- f054351: 稳定文件更新后的预览刷新。
+- 1566716: 统一文档更改后的预览刷新。
+- 628eb5f: 恢复卡片工具和接线覆盖。
+- 834c419: 加强链接数据根的清单迁移。
+- 4a4d911: 统一预览文件更改刷新。
+
+### 其他
+- f20024a: 将 'main' 分支合并到 worktree-interactive-card。
+- f720206: 将 'main' 分支合并到 worktree-interactive-card。
+- 482b7d3: 将 'main' 分支合并到 worktree-interactive-card。
+- b8bb683: 将 'main' 分支合并到 worktree-interactive-card。
+- e62a314: 将 'main' 分支合并到 worktree-interactive-card。
+- 0d86519: 将 'main' 分支合并到 worktree-interactive-card。
+- 78fc7b1: 将 'main' 分支合并到 worktree-interactive-card。
+- 4b26fd8: 将 'main' 分支合并到 worktree-interactive-card。
+- ac33dbb: 将 'main' 分支合并到 worktree-interactive-card。
+- fa107c0: 将 'main' 分支合并到 worktree-interactive-card。
+- d828d9a: 将 'main' 分支合并到 worktree-interactive-card。
+- 6b55e54: 将 'main' 分支合并到 worktree-interactive-card。
+- 9e6ca88: 将 'main' 分支合并到 worktree-interactive-card。
+- 6498a42: 将 'main' 分支合并到 worktree-interactive-card。
+- 0701fc1: 将 'main' 分支合并到 worktree-interactive-card。
+- 2f4b5a8: 将 'main' 分支合并到 worktree-interactive-card。
+- d36348e: 将 'main' 分支合并到 worktree-interactive-card。
+
+**更新要点**: 本次更新引入了互动卡系统和珊瑚主题，同时完成了会话身份迁移。修复了多个与权限、水合和预览刷新相关的问题，确保了系统的稳定性和一致性。
