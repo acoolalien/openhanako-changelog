@@ -1,46 +1,6 @@
 ---
 ---
 ***
-### 2026-06-27 22:44
-
-### 新功能
-- dfdf6e7: 添加了用于内联代理作者 HTML/SVG 的交互式卡片系统。
-- b60964b: 完成会话身份迁移。
-- fdffa35: 添加可编辑的记忆事实实验。
-- 083b253: 添加了珊瑚主题。
-
-### 修复
-- 91c20c5: 在工作树中忽略 node_modules 符号链接。
-- 9b2a35d: 对齐交互式卡片合并合约。
-- 7ace5de: 启动时水合权限默认值。
-- f054351: 在文件更新后稳定预览刷新。
-- 1566716: 统一文档更改后的预览刷新。
-- 628eb5f: 恢复卡片工具和接线覆盖。
-- 834c419: 加强链接数据根的清单迁移。
-- 4a4d911: 统一预览文件更改刷新。
-
-### 其他
-- f20024a: 将 'main' 分支合并到 worktree-interactive-card。
-- f720206: 将 'main' 分支合并到 worktree-interactive-card。
-- 482b7d3: 将 'main' 分支合并到 worktree-interactive-card。
-- b8bb683: 将 'main' 分支合并到 worktree-interactive-card。
-- e62a314: 将 'main' 分支合并到 worktree-interactive-card。
-- 0d86519: 将 'main' 分支合并到 worktree-interactive-card。
-- 78fc7b1: 将 'main' 分支合并到 worktree-interactive-card。
-- 4b26fd8: 将 'main' 分支合并到 worktree-interactive-card。
-- ac33dbb: 将 'main' 分支合并到 worktree-interactive-card。
-- fa107c0: 将 'main' 分支合并到 worktree-interactive-card。
-- d828d9a: 将 'main' 分支合并到 worktree-interactive-card。
-- 6b55e54: 将 'main' 分支合并到 worktree-interactive-card。
-- 9e6ca88: 将 'main' 分支合并到 worktree-interactive-card。
-- 6498a42: 将 'main' 分支合并到 worktree-interactive-card。
-- 0701fc1: 将 'main' 分支合并到 worktree-interactive-card。
-- 2f4b5a8: 将 'main' 分支合并到 worktree-interactive-card。
-- d36348e: 将 'main' 分支合并到 worktree-interactive-card。
-
-**更新要点**: 本次更新引入了交互式卡片系统和珊瑚主题，同时完成了会话身份迁移。修复了多个与预览刷新和权限相关的问题，并进行了多次分支合并。
-
-***
 ### 2026-06-28 07:09
 
 ### 修复
@@ -326,3 +286,44 @@
 - d234fd3: 合并主分支到工作树交互卡
 
 **更新要点**: 本次更新包含多个修复，特别是针对会话管理和聊天界面的改进。同时，新增了珊瑚主题和阅读宽度滑块等功能，提升了用户体验。此外，测试部分也进行了更新，以确保新功能的稳定性。
+
+***
+### 2026-06-30 00:39
+
+### 修复
+- 662b622: 修复：对齐嵌套设置卡片
+- 959881b: 修复：折叠新鲜紧凑状态栏
+- 0cee84f: 修复：将代理媒体生成移至媒体工具
+- f98ddda: 修复：在悬停时保持聊天时间线卡片打开
+- 740f9bb: 修复：在悬停时保持聊天时间线卡片打开
+- 7d86199: 修复：验证远程WebSocket连接
+- 70610ec: 修复：保留飞书桥接最终回复
+- 1390c6d: 修复：保留结构化思维增量
+- eb6ee75: 修复：禁用Agnes推理控制
+- a215a59: 修复：分离草稿思维级别状态
+- e052dde: 修复：添加OpenCode Go GLM提供者
+- 1a67f78: 修复：序列化OAuth登录流程
+- b98bfc9: 修复：验证远程WebSocket连接
+- d9008a6: 修复：保留飞书桥接最终回复
+- 4965397: 修复：保留结构化思维增量
+- d930f1a: 修复：禁用Agnes推理控制
+- 4931286: 修复：分离草稿思维级别状态
+- b010693: 修复：添加OpenCode Go GLM提供者
+- 384a1e3: 修复：序列化OAuth登录流程
+- d0a1a24: 修复：添加用户消息底部操作
+- ee2738c: 修复：添加用户消息底部操作
+- d9fe6a9: 修复：稳定移动设置模态测试
+- 5ff7326: 修复：稳定移动设置模态测试
+
+### 新功能
+- eb4fc6b: 新功能：添加通用Markdown预览Chrome
+
+### 测试
+- 7f661f0: 测试：更新编辑器排版默认值
+
+### 其他
+- 95764d0: 隐藏卡片支持的工具指示器
+- 50e7aa2: 隐藏卡片支持的工具指示器
+- 0775e94: 隐藏交互式卡片工具指示器
+
+**更新要点**: 本次更新主要集中在修复多个功能和增强用户体验，包括对聊天时间线卡片的悬停行为、OAuth登录流程的序列化、以及移动设置模态的稳定性。此外，新增了通用Markdown预览功能。
