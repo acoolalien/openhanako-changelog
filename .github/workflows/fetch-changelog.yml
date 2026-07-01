@@ -2,10 +2,10 @@ name: Fetch OpenHanako Changelog
 
 on:
   schedule:
-    - cron: '0 22 * * *'   # 06:00 Beijing (提前2h, 原08:00)
-    - cron: '0 2 * * *'    # 10:00 Beijing (提前2h, 原12:00)
-    - cron: '0 8 * * *'    # 16:00 Beijing (提前2h, 原18:00)
-    - cron: '0 13 * * *'   # 21:00 Beijing (提前2h, 原23:00)
+    - cron: '0 0 * * *'    # 08:00 Beijing
+    - cron: '0 4 * * *'    # 12:00 Beijing
+    - cron: '0 10 * * *'   # 18:00 Beijing
+    - cron: '0 15 * * *'   # 23:00 Beijing
   workflow_dispatch:
     inputs:
       force_bot:
@@ -48,15 +48,26 @@ jobs:
             COUNT=$(jq 'length' commits.json)
           else
             echo "Cached SHA: $CACHED"
-            if ! gh api "repos/$REPO/compare/$CACHED...HEAD?per_page=30" > compare.json 2>/dev/null; then
-              echo "Compare API failed (rebased?), fallback to full fetch"
-              gh api "repos/$REPO/commits?per_page=30" > commits.json
-              COUNT=$(jq 'length' commits.json)
-            else
+            if gh api "repos/$REPO/compare/$CACHED...HEAD?per_page=30" > compare.json 2>/dev/null; then
               COUNT=$(jq '.total_commits' compare.json)
               echo "New commits since cached SHA: $COUNT"
               if [ "$COUNT" -gt 0 ]; then
                 jq '.commits' compare.json > commits.json
+              fi
+            else
+              # compare API failed (SHA no longer in history, e.g. force push)
+              # fallback: use time-window since last successful run
+              echo "Compare API failed (SHA not in history), trying time-window fallback"
+              LAST_DATE=$(cat last_date.txt 2>/dev/null || echo "")
+              if [ -n "$LAST_DATE" ]; then
+                echo "Last run: $LAST_DATE, fetching commits since then"
+                gh api "repos/$REPO/commits?since=$LAST_DATE&per_page=30" > commits.json
+                COUNT=$(jq 'length' commits.json)
+              else
+                # no date cache either — conservative: only fetch 5 to avoid spam
+                echo "No date cache, conservative fallback (5 commits)"
+                gh api "repos/$REPO/commits?per_page=5" > commits.json
+                COUNT=$(jq 'length' commits.json)
               fi
             fi
           fi
@@ -75,7 +86,7 @@ jobs:
       - name: Build raw changelog
         if: steps.commits.outputs.count != '0'
         run: |
-          jq -r '.[] | "\(.sha[0:7]) \(.commit.committer.date[0:19]) \(.commit.author.name): \(.commit.message | split("\n")[0])"' commits.json > raw.txt
+          jq -r '.[] | "\(.sha[0:7]) \(.commit.committer.date[0:19]) \(.commit.author.name): \(.commit.message | split("\n")[0])"' commits.json | sort -u -k1,1 > raw.txt
 
       - name: Translate via GitHub Models
         if: steps.commits.outputs.count != '0'
@@ -84,7 +95,7 @@ jobs:
           TXT=$(cat raw.txt)
           PAYLOAD=$(jq -n \
             --arg model "gpt-4o-mini" \
-            --arg system "You are a changelog summarizer. Group commits into sections: ### 修复, ### 新功能, ### 测试, ### 其他. Translate each message into natural spoken Chinese. Keep SHA prefix. At the end, add a short summary paragraph starting with **更新要点**: Output text only." \
+            --arg system "You are a changelog summarizer. Group commits into sections: ### 修复, ### 新功能, ### 测试, ### 其他. Translate each message into natural spoken Chinese. Keep SHA prefix. Deduplicate: if multiple commits share the same SHA prefix, list it only once. At the end, add a short summary paragraph starting with **更新要点**: Output text only." \
             --arg user "$TXT" \
             '{model: $model, messages: [{role: "system", content: $system}, {role: "user", content: $user}], temperature: 0.3, max_tokens: 2000}')
           HTTP_CODE=$(curl -s -w "%{http_code}" -X POST "https://models.inference.ai.azure.com/chat/completions" \
@@ -114,6 +125,7 @@ jobs:
             cat translated.txt
           } >> changelog.md
           echo "${{ steps.commits.outputs.newest }}" > last_sha.txt
+          TZ='Asia/Shanghai' date -Iseconds > last_date.txt
 
       - name: Trim to last 8 and fix front matter
         if: steps.commits.outputs.count != '0'
@@ -136,7 +148,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add changelog.md last_sha.txt
+          git add changelog.md last_sha.txt last_date.txt
           TIME=$(TZ='Asia/Shanghai' date +"%Y-%m-%d %H:%M")
           git commit -m "changelog $TIME" || true
           git push
