@@ -1,46 +1,6 @@
 ---
 ---
 ***
-### 2026-06-30 07:03
-
-### 新功能
-- dfdf6e7: 添加了用于内联代理作者 HTML/SVG 的交互式卡片系统。
-- b60964b: 完成了会话身份迁移。
-- fdffa35: 添加了可编辑的记忆事实实验。
-- 083b253: 添加了珊瑚主题。
-
-### 修复
-- 91c20c5: 在工作树中忽略 node_modules 的符号链接。
-- 9b2a35d: 对齐交互式卡片合并合同。
-- 7ace5de: 启动时水合权限默认值。
-- f054351: 稳定文件更新后的预览刷新。
-- 1566716: 统一文档更改后的预览刷新。
-- 628eb5f: 恢复卡片工具和接线覆盖。
-- 834c419: 加强链接数据根的清单迁移。
-- 4a4d911: 统一预览文件更改刷新。
-
-### 其他
-- f20024a: 将 'main' 分支合并到 worktree-interactive-card。
-- f720206: 将 'main' 分支合并到 worktree-interactive-card。
-- 482b7d3: 将 'main' 分支合并到 worktree-interactive-card。
-- b8bb683: 将 'main' 分支合并到 worktree-interactive-card。
-- e62a314: 将 'main' 分支合并到 worktree-interactive-card。
-- 0d86519: 将 'main' 分支合并到 worktree-interactive-card。
-- 78fc7b1: 将 'main' 分支合并到 worktree-interactive-card。
-- 4b26fd8: 将 'main' 分支合并到 worktree-interactive-card。
-- ac33dbb: 将 'main' 分支合并到 worktree-interactive-card。
-- fa107c0: 将 'main' 分支合并到 worktree-interactive-card。
-- d828d9a: 将 'main' 分支合并到 worktree-interactive-card。
-- 6b55e54: 将 'main' 分支合并到 worktree-interactive-card。
-- 9e6ca88: 将 'main' 分支合并到 worktree-interactive-card。
-- 6498a42: 将 'main' 分支合并到 worktree-interactive-card。
-- 0701fc1: 将 'main' 分支合并到 worktree-interactive-card。
-- 2f4b5a8: 将 'main' 分支合并到 worktree-interactive-card。
-- d36348e: 将 'main' 分支合并到 worktree-interactive-card。
-
-**更新要点**: 本次更新引入了交互式卡片系统和珊瑚主题，同时修复了多个与会话和预览相关的问题，增强了系统的稳定性和用户体验。
-
-***
 ### 2026-06-30 14:01
 
 ### 修复
@@ -286,3 +246,24 @@
 - 1470cfb: 新功能：用 MinGit 替换 Windows PortableGit 运行时
 
 **更新要点**: 本次更新主要集中在修复多个功能和状态问题，同时引入了用 MinGit 替换 Windows PortableGit 运行时的新功能。
+
+***
+### 2026-07-04 00:17
+
+### 修复
+- 4f38269: 修复：通过工具审查安装技能的审批流程
+- 6c9c0d3: 修复：jimeng cli dreamina 查找
+- 7f34ef9: 修复：增强桥接平台的交付和身份安全
+- d2c8eb0: 修复：稳定快速聊天和连接器的启动状态
+- e19df4d: 修复：稳定流媒体和实用协议
+
+### 新功能
+- cba96ef: 新功能：软化技能安装的安全审查
+
+### 测试
+（无相关提交）
+
+### 其他
+（无相关提交）
+
+**更新要点**: 本次更新主要集中在修复多个功能，包括技能安装审批流程、jimeng cli 查找、桥接平台的安全性以及快速聊天和连接器的稳定性。此外，还新增了对技能安装安全审查的软化功能。
