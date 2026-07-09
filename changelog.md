@@ -1,23 +1,6 @@
 ---
 ---
 ***
-### 2026-07-02 12:01
-
-### 修复
-- 174c142: 修复：在回合结束时确定流状态
-- 2c3691c: 修复：隔离 MinGit 运行时测试合约
-- 47839ce: 修复：保持 MCP 工具能力漂移
-- 6298f21: 修复：保持编辑器查找焦点
-- 6b80c22: 修复：在桌面上连接插件斜杠命令
-- 95f9c1d: 修复：将桌面测试模拟与斜杠命令和流合约同步
-- edfa535: 修复：在文本表面禁用拼写检查
-
-### 新功能
-- 1470cfb: 新功能：用 MinGit 替换 Windows PortableGit 运行时
-
-**更新要点**: 本次更新主要集中在修复多个功能和状态问题，同时引入了用 MinGit 替换 Windows PortableGit 运行时的新功能。
-
-***
 ### 2026-07-04 00:17
 
 ### 修复
@@ -181,3 +164,41 @@
 - 4c0d2b  其他(ui): 在 ui barrel 导出中注册 ClassicFindBox。
 
 **更新要点**: 本次更新包含多个新功能，特别是在设计、聊天和搜索方面的改进，同时修复了一些关键问题以提升用户体验。
+
+***
+### 2026-07-09 11:48
+
+### 修复
+- 2fe7b7f: 修复模块服务器依赖 sentinel，补齐 pi-agent-core。
+- 4431b46: 修复 pi agent core 的运行时依赖。
+- 4cc0ba8: 移除 style-discipline.mjs 无效 shebang，修复 Windows CI 语法错误。
+- 526a064: 用 pi-ai 0.80.3 目录对表刷新 known-models 词典。
+- 5c8fd26: 延迟解码图片预览。
+- 5cf01f0: 启动 rescan 回填存量 manifest 缺失的 ownerAgentId（只补缺不覆盖）。
+- 5dbf549: 远程客户端会话订阅按 sessionId 匹配，归档不再静默断流。
+- 5fda3b8: 移除 main 上没有配套实现的 .md 文件关联声明。
+- 68bf90a: 列表链路单点失败不再清空整个会话列表。
+- 8e4c097: 新增 resolveSessionOwnership 归属边界，manifest.ownerAgentId 为权威。
+- 92cdfab: engine/server 基础层归属消费点收敛到 resolveSessionOwnership。
+- 934fab0: fallbacks 与词典对齐 + MiniMax-M3 context 用户策展 500k。
+- aa08fe8: 移除打包的 node_modules bin 链接。
+- b6b4b8d: server routes 门禁与归属消费点收敛到 manifest 权威。
+- e171322: coordinator 归属消费点收敛到 resolveSessionOwnership。
+- eff5bd1: 声明 photon 运行时依赖。
+
+### 新功能
+- 无
+
+### 测试
+- 无
+
+### 其他
+- 1e22769: 发版摘要版本号对齐 v0.371.17。
+- 4b8673a: 修正过期 "keyed by sessionPath" 注释 + 审计脚本三处盲区。
+- 88e447a: style-discipline baseline key 跨平台统一为正斜杠。
+- 933ef13: 发版摘要版本号对齐 v0.371.16。
+- 8b77ccdc: 发版摘要版本号对齐 v0.371.18。
+- bb066a6: 为 v0.371.14 添加发版摘要。
+- df1fffe: 发版摘要版本号对齐 v0.371.19，移除失效的图标条目。
+
+**更新要点**: 本次更新主要集中在修复多个依赖和会话管理方面的问题，同时进行了版本号的对齐和发版摘要的更新。没有新增功能。
