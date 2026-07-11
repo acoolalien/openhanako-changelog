@@ -1,46 +1,6 @@
 ---
 ---
 ***
-### 2026-07-09 00:23
-
-### 修复
-- 3308568  修复(search): 注释分词器返回类型，以便类型化消费者通过严格类型检查。
-- 37a5232  修复(chat): 查找栏重新打开时重新聚焦和防抖关闭语义。
-- 4759b4c  修复(settings): 同步 InterfaceTab 测试与 newsprint bodyFontSize 默认值。
-- 950bd94f  修复(design): --tool-bg 亮色主题降至用户气泡同深度。
-- bde026f  修复(packaging): 添加 Markdown 文档图标资源。
-- ca0bb74  修复(ui): 对 ClassicFindBox 的间距进行标记化（新文件的裸间距基线为零）。
-- cf0e10c  修复(chat): 通过修订协调定位 live-id 消息，并将查找标记范围限制在消息主体。
-- d3cc836  修复(design): --tool-bg 对齐收纳条（各主题 --overlay-subtle 同值），收纳条 hover 迁移至 --overlay-light。
-
-### 新功能
-- 088c07f  新功能(design): --tool-bg 全主题加深一档，非任务语义借用点迁移 --overlay-subtle。
-- 165b99c  新功能(server): /api/sessions/find 消息级别命中路由与消息索引对齐。
-- 2b7afdb  新功能(typography): PT Serif 字体面具令牌和 radius-xs。
-- 2d2068a  新功能(store): 聊天查找切片，带有键控查找状态和待处理消息定位意图。
-- 3413ec4  新功能(sdk): 升级 Pi SDK 至 @earendil-works 0.80.3（scope 迁移）。
-- 384939  新功能(design): fs-micro 第六类型层级，死空间令牌修复，令牌引用保护。
-- 4d97a0f  新功能(chat): 任务族第二轮——底色中性化、连续 Subagent 卡融合、工具条对齐任务块宽度。
-- 57b7ee7  新功能(sessions): 内容搜索命中跳转到最佳匹配消息，而不是裸切换。
-- 7791c85  新功能(store): 聊天查找协调操作（运行/步骤/从搜索定位）。
-- 8bb1c85  新功能(chat): ChatResourceCard 支持任务变体，Subagent/Workflow 卡收敛任务族容器。
-- 9d8c29f  新功能(tooling): style-discipline 基线契约（灰名单，仅减少）。
-- a89753a  新功能(typography): markdown 阅读默认切换至 newsprint 度量。
-- d1e005b  新功能(chat): 工具条收敛任务族形态——四角圆角矩形，去掉 accent 竖线与 accent 呼吸点。
-- d8b4d93  新功能(search): 消息级别查找核心，带有可显示索引语义。
-- e2929d4  新功能(tooling): style-discipline 扫描器（裸间距/硬编码颜色/裸持续时间）。
-- fe41c0b  新功能(preview): 表格和代码块的节奏捕捉。
-
-### 测试
-- 4ea552c  测试(preview): newsprint 基线网格结构用于 markdown 预览。
-- 4c0d2b  测试(ui): 在 ui barrel 导出中注册 ClassicFindBox。
-
-### 其他
-- 4c0d2b  其他(ui): 在 ui barrel 导出中注册 ClassicFindBox。
-
-**更新要点**: 本次更新包含多个新功能，特别是在设计、聊天和搜索方面的改进，同时修复了一些关键问题以提升用户体验。
-
-***
 ### 2026-07-09 11:48
 
 ### 修复
@@ -203,3 +163,25 @@
 - a9df4e8 2026-07-11T10:27:51 liliMozi: 功能（运行时）：发布签名的工件火车并统一设置
 
 **更新要点**: 本次更新引入了发布签名的工件火车以及统一的设置。
+
+***
+### 2026-07-11 23:41
+
+### 修复
+- 15d1b11: 修复工具：在 eslint 中忽略生成的 dist 家族
+- 21752a0: 修复（Windows）：安装完整性校验迁移到 seed 归档布局
+- 3edd650: 修复（设置）：将更新历史限制在设置面板
+- cdf963d: 修复（测试）：使列车签名的测试用例可移植
+- d7d48c2: 修复（发布）：列车 manifest 的 minShell 改为固定兼容地板，不再等于列车版本号
+- def20a0: 修复（发布）：仅将 gh 的缺失发布错误视为发布缺失
+- e837e3a: 修复（CI）：修复 Windows 测试加载失败——shebang 与 CRLF 检出的组合破坏代码转换
+
+### 新功能
+- 1c8762d: 新功能（发布）：添加热更新列车发布管道
+
+### 其他
+- 1aa5049: 其他（发布）：准备 v0.386.5 摘要
+- 1fd68bc: 其他（发布）：准备 v0.386.6 摘要
+- 9bfeaaa: 其他（发布）：准备 v0.385.11 摘要
+
+**更新要点**: 本次更新主要集中在修复多个问题，包括工具、Windows 安装、设置面板和测试用例的可移植性等。此外，新增了热更新列车发布管道，并进行了多个版本的发布摘要准备。
