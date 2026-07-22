@@ -1,28 +1,6 @@
 ---
 ---
 ***
-### 2026-07-17 19:18
-
-### 修复
-- 1fb072d liliMozi: 修复（钉钉）：在升级时保留稳定的应用认证
-- 4abdf46 liliMozi: 修复（频道）：移除过时的直接消息工具指导
-- 5070727 liliMozi: 修复（技能）：在升级时保留稳定的项目发现策略
-- c9c30a2 liliMozi: 修复（模型）：在升级时保留引用的Codex OAuth模型
-- f1f356f liliMozi: 修复（模型）：修复升级时不兼容的目录元数据
-- ffff66f liliMozi: 修复（会话）：在输入前检查冻结工具的漂移 (#2156)
-
-### 新功能
-- 无
-
-### 测试
-- 无
-
-### 其他
-- ab8d508 liliMozi: 事务（发布）：准备v0.407.15兼容性发布
-
-**更新要点**: 本次更新主要集中在修复多个模块的稳定性和兼容性问题，包括钉钉、频道、技能和模型等。同时，准备了一个新的版本发布。
-
-***
 ### 2026-07-18 14:01
 
 ### 修复
@@ -159,3 +137,25 @@ a59ec78 2026-07-18T07:43:50 liliMozi: 测试（迁移）：覆盖链接的稳定
 无
 
 **更新要点**: 本次更新主要集中在修复 Windows 平台的多个问题，包括桌面访问权限、受限子进程的初始化和令牌的更新。同时，发布了 v0.416.4 和 v0.416.12 的双语摘要。
+
+***
+### 2026-07-22 19:44
+
+### 修复
+- 0f14940 liliMozi: 修复（Windows）：隔离受限子对象的ACL
+- 1c3d88c liliMozi: 修复（Windows）：明确命名PowerShell沙箱桌面
+- 2a7212d liliMozi: 修复（Windows）：保持环境块迭代器的兼容性
+- 3efaed0 liliMozi: 修复（CI）：在发布前测试Windows独立包
+- 502405f liliMozi: 修复（Windows）：使沙箱中的PowerShell为非交互式
+- 6361474 liliMozi: 修复（Windows）：以原子进程合约启动受限shell
+- 6416a6a liliMozi: 修复（Windows）：保持PowerShell在兼容桌面上
+- 6799847 liliMozi: 修复（Windows）：保留PowerShell命令边界
+- 735f710 liliMozi: 修复（Windows）：通过cmd代理受限PowerShell
+- 77416ee liliMozi: 修复（CI）：在Windows沙箱烟雾测试中关闭stdin
+- 849d2a5 liliMozi: 修复（Windows）：对受限的一次性命令使用cmd
+- 9dbbb4f liliMozi: 修复（发布）：在独立烟雾测试中保留Windows cmd引号
+- c32f1b8 liliMozi: 修复（Windows）：保留cmd命令字符串边界
+- d35d1a3 liliMozi: 修复（Windows）：对受限命令使用兼容的PowerShell
+
+### 更新要点
+本次更新主要集中在修复Windows平台上的多个问题，包括对PowerShell沙箱的改进、兼容性增强以及在CI流程中的测试。所有修复旨在提升系统的稳定性和安全性。
