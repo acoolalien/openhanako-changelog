@@ -1,23 +1,6 @@
 ---
 ---
 ***
-### 2026-07-21 19:43
-
-### 修复
-- 0f81233 liliMozi: 修复(i18n): 将最大思维等级标记为中文地区的“Max”
-- 2249c4a liliMozi: 修复(build): 规范化 MinGit 来源路径
-- 3540cdf liliMozi: 修复(release): 使用本地 cmd.exe 子进程验证 Windows 独立沙箱
-- 5b58c25 liliMozi: 修复(models): 从 Kimi K3 中删除无效思维等级
-
-### 新功能
-- 02e466e liliMozi: 新功能(models): 为 Kimi K3 提供中等和高级思维等级
-
-### 其他
-- 4890f8b liliMozi: 其他(release): 为 v0.415.16 添加双语摘要
-
-**更新要点**: 本次更新主要修复了多个与国际化、构建和发布相关的问题，同时为 Kimi K3 添加了中等和高级思维等级，并提供了双语摘要。
-
-***
 ### 2026-07-22 00:11
 
 ### 修复
@@ -166,3 +149,28 @@
 - ecdf89f liliMozi: 重构: 通过每个代理路线读取和写入代理拥有的设置
 
 **更新要点**: 本次更新包含多个修复和新功能，特别是在代理和工作区的处理上进行了重要改进。修复了多个与代理、会话和设置相关的问题，同时引入了新的功能以增强用户体验。
+
+***
+### 2026-07-27 14:58
+
+### 修复
+- 17b5525 liliMozi: 修复(identity): 确保用户的名字在所有代理中具有一致的含义
+- 3794419 liliMozi: 修复(mobile-workbench): 将远程写入记录在执行它们的子系统下
+- 52a2f5c liliMozi: 修复(compaction): 隔离缓存保留的摘要
+- 561987d liliMozi: 修复(compaction): 每个会话进行一次压缩，且在一个被中止时停止
+- 6206f4f liliMozi: 修复(providers,preferences): 不再将全局模型的更改标记为某个代理
+- 73491af liliMozi: 修复(settings-snapshot,desk): 对主要代理进行响应，而不是聚焦的代理
+- 8287a30 liliMozi: 修复(plugins): 将代理的真实缺失传递给插件
+- a2c36b0 liliMozi: 修复(bridge): 使桥接会话工作时标明其所属的代理
+- b0b0a53 liliMozi: 修复(compaction): 提出一个关于请求原因的问题
+- b6ab4ad liliMozi: 修复(session): 当流式会话被中止时传递最终的 turn_end
+- e2053a0 liliMozi: 修复(models): 将模型健康探测费用计入公用账户
+- ea249fe liliMozi: 修复(skills): 对技能包视图要求明确的代理
+- fa122b7 liliMozi: 修复(compaction): 使压缩请求规范化，类似于实时请求
+
+### 其他
+- e87769a liliMozi: 任务(release): 为 v0.421.24 添加双语更新摘要
+- 6838d10 liliMozi: 重构(server): 记录每个剩余焦点读取被允许的原因
+- a220cf0 liliMozi: 重构(server): 记录仍然允许猜测代理的一个路由
+
+**更新要点**: 本次更新主要集中在修复多个模块中的问题，确保用户体验一致性和系统稳定性。同时，进行了部分代码重构和文档更新，以提升代码的可读性和维护性。
