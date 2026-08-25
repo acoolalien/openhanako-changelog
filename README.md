@@ -1,6 +1,8 @@
 # OpenHanako 更新日志（中文）
 
-每天 4 次检测 [liliMozi/openhanako](https://github.com/liliMozi/openhanako) 的 git 更新（北京时间 08:00 / 12:00 / 18:00 / 23:00），通过 GitHub Models（GPT-4o-mini）翻译为中文，按 修复/新功能/测试 分组展示并附更新要点，通过 QQ bot 私聊推送 + GitHub Issue 邮件备份。
+> **⚠️ 已暂停抓取（2026-08-25）**：翻译依赖的 GitHub Models 服务已于 2026-07-30 关闭，旧端点 `models.inference.ai.azure.com` 停止解析，工作流连续失败，已禁用定时调度。历史 changelog 保留在 `changelog.md` 与 [pinned issue](https://github.com/acoolalien/openhanako-changelog/issues/1)，部署文档仍可用于自建；如需恢复，换用其他 LLM 端点后重新启用工作流即可。
+
+原功能：每天 4 次检测 [liliMozi/openhanako](https://github.com/liliMozi/openhanako) 的 git 更新（北京时间 08:00 / 12:00 / 18:00 / 23:00），通过 GitHub Models（GPT-4o-mini）翻译为中文，按 修复/新功能/测试 分组展示并附更新要点，通过 QQ bot 私聊推送 + GitHub Issue 邮件备份。
 
 ## 架构
 
